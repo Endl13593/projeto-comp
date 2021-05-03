@@ -23,7 +23,7 @@ class CreateDqcModelTable extends Migration
     {
         Schema::create($this->table, function (Blueprint $table) {
             $table->id();
-            $table->string('model', 10)->unique();
+            $table->string('model', 10)->unique()->index('model');
         });
     }
 

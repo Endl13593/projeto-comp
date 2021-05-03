@@ -31,7 +31,7 @@ class CreateDqc84Table extends Migration
                 ->references('id')
                 ->on($this->tableDqcModel)
                 ->onDelete('CASCADE');
-            $table->string('fat_part_no', 15)->unique();
+            $table->string('fat_part_no', 15)->unique()->index('fat_part_no');
             $table->integer('total_location');
             $table->timestamps();
         });

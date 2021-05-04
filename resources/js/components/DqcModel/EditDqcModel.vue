@@ -5,7 +5,7 @@
             <div class="col-md-6">
                 <form @submit.prevent="update">
                     <div class="form-group">
-                        <label>DQC Model:</label>
+                        <label>MODEL:</label>
                         <input type="text" class="form-control" v-model="obj.model">
                     </div>
                     <button type="submit" class="btn btn-primary">Salvar</button>

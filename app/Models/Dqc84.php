@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * Class Dqc84
@@ -20,4 +21,14 @@ class Dqc84 extends Model
     use HasFactory;
 
     protected $table = 'dqc84';
+
+    protected $casts = [
+        'created_at' => 'date:d/m/Y H:m:i',
+        'updated_at' => 'date:d/m/Y H:m:i',
+    ];
+
+    public function dqcModel(): BelongsTo
+    {
+        return $this->belongsTo(DqcModel::class, 'model');
+    }
 }

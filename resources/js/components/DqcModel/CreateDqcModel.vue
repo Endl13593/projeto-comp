@@ -1,11 +1,11 @@
 <template>
     <div>
-        <h3 class="text-center">Criar DQC Model</h3>
+        <h3 class="text-center mt-3">Criar DQCMODEL</h3>
         <div class="row">
             <div class="col-md-6">
                 <form @submit.prevent="save">
                     <div class="form-group">
-                        <label>DQC Model:</label>
+                        <label>MODEL:</label>
                         <input type="text" class="form-control" v-model="obj.model">
                     </div>
                     <button type="submit" class="btn btn-primary">Salvar</button>

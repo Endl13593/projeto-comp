@@ -26,5 +26,5 @@ Informe os dados de acesso abaixo, eles estarão também no arquivo .env na raí
 
 `Senha: root`
 
-Na raíz do projeto tem o dump do banco de dados chamado db_comp.sql, para importar de forma manual se preferir,
+Na raíz do projeto tem uma pasta chamada dump com db_comp.sql, para importar de forma manual se preferir,
 para isso remova todas as tabelas do banco de dados já criadas e faça a importação do arquivo db_comp.sql.

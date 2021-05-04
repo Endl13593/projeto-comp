@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Dqc841FormRequest;
 use App\Models\Dqc84;
 use App\Models\Dqc841;
+use App\Service\Report;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Dqc841Controller extends Controller
 {
-    public function index()
+    public function index(): LengthAwarePaginator
     {
-        return Dqc841::with('dqc84')->get();
+        return Dqc841::with('dqc84')->orderByDesc('id')->paginate(10);
     }
 
-    public function store(Request $request): Dqc841
+    public function store(Dqc841FormRequest $request): Dqc841
     {
         $obj = new Dqc841();
         $obj->fat_part_no = $request->fat_part_no;
@@ -31,7 +35,7 @@ class Dqc841Controller extends Controller
         return $model;
     }
 
-    public function update(Dqc841 $model, Request $request): Dqc841
+    public function update(Dqc841 $model, Dqc841FormRequest $request): Dqc841
     {
         $model->fat_part_no = $request->fat_part_no;
         $model->parts_no = $request->parts_no;
@@ -53,8 +57,13 @@ class Dqc841Controller extends Controller
         return Dqc84::all();
     }
 
-    public function reportList(Request $request)
+    public function reportList(Request $request): LengthAwarePaginator
     {
-        dd($request->all());
+        return (new Report($request->search))->reportList();
+    }
+
+    public function exportReport(Request $request): BinaryFileResponse
+    {
+        return (new Report($request->search))->reportExport();
     }
 }

@@ -1,6 +1,7 @@
 <template>
-    <div>
+    <div v-loading="preloader">
         <h3 class="text-center mt-3">Edit {{ title }}</h3>
+        <div v-if="error" v-html="error" class="alert alert-danger"></div>
         <div class="row">
             <div class="col-md-6">
                 <form @submit.prevent="update">
@@ -48,17 +49,20 @@ export default {
                 description: '',
                 ref_designator: ''
             },
-            dqc84: []
+            dqc84: [],
+            error: '',
+            preloader: false
         }
     },
 
     created() {
+        this.preloader = true;
         this.axios
             .get(`edit-dqc-841/${this.$route.params.id}`)
             .then((res) => {
                 this.title = res.data.parts_no;
                 this.obj = res.data;
-            });
+            }).finally(() => { this.preloader = false });
 
         this.axios
             .get('get-dqc84')
@@ -69,11 +73,24 @@ export default {
 
     methods: {
         update() {
+            this.error = '';
+
             this.axios
                 .patch(`update-dqc-841/${this.$route.params.id}`, this.obj)
                 .then(() => {
                     this.$router.push({ name: 'dqc-841-list' });
-                });
+                    this.$message({
+                        message: 'Alteração realizada com sucesso!.',
+                        type: 'success'
+                    });
+                })
+                .catch(error => {
+                    try {
+                        for (let item in error.response.data.errors) {
+                            this.error += error.response.data.errors[item][0] + '<br>'
+                        }
+                    } catch (e) {}
+                })
         }
     }
 };

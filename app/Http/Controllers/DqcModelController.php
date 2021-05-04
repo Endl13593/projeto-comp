@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DqcModelFormRequest;
 use App\Models\DqcModel;
 use Illuminate\Http\Request;
 
@@ -9,10 +10,10 @@ class DqcModelController extends Controller
 {
     public function index()
     {
-        return DqcModel::all();
+        return DqcModel::query()->orderByDesc('id')->get();
     }
 
-    public function store(Request $request): DqcModel
+    public function store(DqcModelFormRequest $request): DqcModel
     {
         $obj = new DqcModel();
         $obj->model = $request->model;
@@ -26,7 +27,7 @@ class DqcModelController extends Controller
         return $model;
     }
 
-    public function update(DqcModel $model, Request $request): DqcModel
+    public function update(DqcModel $model, DqcModelFormRequest $request): DqcModel
     {
         $model->model = $request->model;
         $model->save();

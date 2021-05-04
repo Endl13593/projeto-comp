@@ -14,6 +14,8 @@ import VueAxios from 'vue-axios';
 import VueRouter from 'vue-router';
 import axios from 'axios';
 import { routes } from './routes';
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -23,6 +25,7 @@ import { routes } from './routes';
 
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
+Vue.use(ElementUI);
 
 const router = new VueRouter({
     mode: 'history',

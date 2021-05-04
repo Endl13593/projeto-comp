@@ -2,7 +2,7 @@
     <div>
         <h2 class="text-center mt-3">DQC84 Listagem</h2>
         <p><router-link to="/create-dqc-84" class="btn btn-success">Criar DQC84</router-link></p>
-        <table class="table">
+        <table class="table" v-loading="preloader">
             <thead>
             <tr>
                 <th>FAT_PART_NO</th>
@@ -14,6 +14,9 @@
             </tr>
             </thead>
             <tbody>
+            <tr v-if="data.length <= 0">
+                <td colspan="6"><h3 class="text-center">Não foram encontrados registros</h3></td>
+            </tr>
             <tr v-for="obj in data" :key="obj.id">
                 <td>{{ obj.fat_part_no }}</td>
                 <td>{{ obj.dqc_model.model }}</td>
@@ -23,7 +26,7 @@
                 <td>
                     <div class="btn-group" role="group">
                         <router-link :to="{name: 'edit-dqc-84', params: { id: obj.id }}" class="btn btn-primary">Editar</router-link>
-                        <button class="btn btn-danger" @click.prevent="deleteObj(obj.id)">Excluir</button>
+                        <button class="btn btn-danger" @click.prevent="deleteObj(obj)">Excluir</button>
                     </div>
                 </td>
             </tr>
@@ -38,26 +41,45 @@ export default {
 
     data() {
         return {
-            data: []
+            data: [],
+            preloader: false
         }
     },
 
     created() {
+        this.preloader = true;
         this.axios
             .get('dqc-84')
             .then(response => {
                 this.data = response.data;
-            });
+            }).finally(() => { this.preloader = false; });
     },
 
     methods: {
-        deleteObj(id) {
-            this.axios
-                .delete(`dqc-84/${id}`)
+        deleteObj(obj) {
+            this.$confirm('Deseja realmente excluir <strong>' + obj.fat_part_no + ' </strong>?',
+                'Excluir', {
+                    dangerouslyUseHTMLString: true,
+                    confirmButtonText: 'Confirmar',
+                    cancelButtonText: 'Cancelar',
+                    type: 'warning'})
                 .then(() => {
-                    let i = this.data.map(data => data.id).indexOf(id);
-                    this.data.splice(i, 1)
-                });
+                    this.axios.delete(`dqc-84/${obj.id}`)
+                        .then(() => {
+                            this.$message({
+                                type: 'success',
+                                message: 'Excluído com sucesso.'
+                            })
+                            let i = this.data.map(data => data.id).indexOf(obj.id);
+                            this.data.splice(i, 1)
+                        })
+                        .catch(() => {
+                            this.$message({
+                                type: 'info',
+                                message: 'Não foi possível Excluir, Tente novamente'
+                            })
+                        });
+                }).catch(() => {});
         }
     },
 };

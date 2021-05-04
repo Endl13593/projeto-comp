@@ -1,6 +1,7 @@
 <template>
     <div>
         <h3 class="text-center mt-3">Criar DQC841</h3>
+        <div v-if="error" v-html="error" class="alert alert-danger"></div>
         <div class="row">
             <div class="col-md-6">
                 <form @submit.prevent="save">
@@ -47,7 +48,8 @@ export default {
                 description: '',
                 ref_designator: ''
             },
-            dqc84: []
+            dqc84: [],
+            error: ''
         }
     },
 
@@ -61,12 +63,24 @@ export default {
 
     methods: {
         save() {
+            this.error = '';
+
             this.axios
                 .post('dqc-841', this.obj)
-                .then(() => (
-                    this.$router.push({ name: 'dqc-841-list' })
-                ))
-                .catch(err => console.log(err))
+                .then(() => {
+                    this.$router.push({name: 'dqc-841-list'})
+                    this.$message({
+                        message: 'Cadastro realizado com sucesso!.',
+                        type: 'success'
+                    });
+                })
+                .catch(error => {
+                    try {
+                        for (let item in error.response.data.errors) {
+                            this.error += error.response.data.errors[item][0] + '<br>'
+                        }
+                    } catch (e) {}
+                })
         }
     },
 };

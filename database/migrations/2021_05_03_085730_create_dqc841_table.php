@@ -31,8 +31,8 @@ class CreateDqc841Table extends Migration
                 ->references('id')
                 ->on($this->tableDqc84)
                 ->onDelete('CASCADE');
-            $table->string('parts_no', 15)->unique()->index('parts_no');
-            $table->decimal('unt_usg', 10, 6);
+            $table->string('parts_no', 15)->index('parts_no');
+            $table->integer('unt_usg');
             $table->longText('description');
             $table->longText('ref_designator')->nullable();
             $table->timestamps();

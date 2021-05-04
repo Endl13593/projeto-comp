@@ -25,5 +25,6 @@ Route::middleware('api')->group(function () {
     Route::patch('update-dqc-841/{model}', [Dqc841Controller::class, 'update']);
     Route::delete('dqc-841/{model}', [Dqc841Controller::class, 'destroy']);
     Route::get('get-dqc84', [Dqc841Controller::class, 'getDqc84']);
-    Route::post('report-list', [Dqc841Controller::class, 'reportList']);
+    Route::get('report-list', [Dqc841Controller::class, 'reportList']);
+    Route::post('export-report', [Dqc841Controller::class, 'exportReport']);
 });

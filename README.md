@@ -4,7 +4,7 @@ Após o download do projeto, entre na pasta do projeto e realize os seguintes co
 
 Subir os containers do Docker:
 
-`docker-compose up -d`
+`docker-compose up -d --build`
 
 Listar os containers:
 

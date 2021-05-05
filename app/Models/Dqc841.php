@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\SerializeDate;
 use Fico7489\Laravel\EloquentJoin\Traits\EloquentJoin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,12 +24,13 @@ class Dqc841 extends Model
 {
     use HasFactory;
     use EloquentJoin;
+    use SerializeDate;
 
     protected $table = 'dqc841';
 
     protected $casts = [
-        'created_at' => 'date:d/m/Y H:m:i',
-        'updated_at' => 'date:d/m/Y H:m:i',
+        'created_at' => 'date:d/m/Y H:i:s',
+        'updated_at' => 'date:d/m/Y H:i:s',
     ];
 
     public function dqc84(): BelongsTo
